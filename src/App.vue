@@ -11,6 +11,7 @@ export default {
       toilet: 70,
       fun: 30,
       choice: "Your choice",
+      active: ["dress", "eat", "play"],
       dress: {
         name: ["naked", "bread", "crocodile", "mexico", "female"],
         counter: 0,
@@ -54,17 +55,20 @@ export default {
     },
     sleep(src, bar) {
       this.img = src;
-      const increaseHealthbar = setInterval(() => {
-        if (this.energy > 0) {
-          this.energy = eval("this." + bar) - 10;
-        } else {
-          setTimeout(() => {
-            this.img = "/src/assets/default.gif";
-          }, 1000);
-          clearInterval(increaseHealthbar);
-        }
-      }, 1000);
-      increaseHealthbar;
+      let foo = "this."+bar+"="+"this."+bar+"-20"; // results with: this.energy = this.energy - 20;
+      console.log(typeof eval(foo));
+      eval(foo);
+      // const increaseHealthbar = setInterval(() => {
+      //   if (this.energy > 0) {
+      //     this.energy = eval("this." + bar) - 10;
+      //   } else {
+      //     setTimeout(() => {
+      //       this.img = "/src/assets/default.gif";
+      //     }, 1000);
+      //     clearInterval(increaseHealthbar);
+      //   }
+      // }, 1000);
+      // increaseHealthbar;
     },
     choose(input) {
       switch (input) {
