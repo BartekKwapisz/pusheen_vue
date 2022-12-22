@@ -29,6 +29,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.column {
   flex-direction: column;
 }
 
@@ -38,8 +40,20 @@ body {
   font-style: italic;
 }
 
+.grid-item span:hover {
+  color:red;
+}
+
+.choice{
+  min-width: 250px; 
+  /* to prevent arrows from changing position while choice variable is changing */
+}
+
 .image {
   grid-row: span 3;
+  min-width: 500px;
+  min-height: 350px;
+  /* min values needed to prevent div from resizing while changing cat's picture */
 }
 
 .bar {
@@ -54,10 +68,13 @@ body {
 
 .bar-inside {
   width: 30%;
-  min-height: 15px;
+  min-height: 100%;
   right: 0px;
   position: absolute;
   background-color: beige;
+  transition: width 2s;
 }
 
 /*# sourceMappingURL=App.css.map */
+
+ 
