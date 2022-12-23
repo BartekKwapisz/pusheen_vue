@@ -7,13 +7,12 @@ export default {
     return { 
       img: "/src/assets/default.gif",
       imgDefault: "/src/assets/default.gif",
-      candy: new Audio("src/assets/candy.mp3"),
-      love: new Audio("src/assets/love.mp3"),
+      candy: new Audio("src/assets/candy.mp3"), 
       playing: true,
-      energy: 50,
+      energy: 54,
       toilet: 70,
       fun: 30,
-      choice: "Pusheen tamagotchi",
+      choice: "Pusheen tamagotchi 🐈",
       current: {
           activity: {
             eat: ["ramen","pizza","egg","sushi","cookie","peeps","hair","ice-cream","everything"],
@@ -27,21 +26,25 @@ export default {
   },
   methods: {
     choose(input) {  
-      this.bulik = true;
+      let string = "";
       switch(input){
-        case "eat": this.choice = this.current.activity.eat[0]; 
+        case "eat": string = this.current.activity.eat[0];
+                    this.choice = string; 
                     this.current.arrLength = this.current.activity.eat.length;
                     this.current.counter = 0;
         break;
-        case "dress": this.choice = this.current.activity.dress[0];
+        case "dress": string = this.current.activity.dress[0];
+                      this.choice = string;
                       this.current.arrLength = this.current.activity.dress.length; 
                       this.current.counter = 0;
         break;
-        case "play": this.choice = this.current.activity.play[0]; 
+        case "play": string = this.current.activity.play[0];
+                     this.choice =  string
                      this.current.arrLength = this.current.activity.play.length;
                      this.current.counter = 0;
         break;
       }
+      this.changeImg(string);
     },
     changeChoice(input) {
       switch (input) {
@@ -69,10 +72,21 @@ export default {
       }
       this.playing = !this.playing;
     },
-    sleep(src, bar) {
-      this.img = src;
-      let foo = "this."+bar+"="+"this."+bar+"-20"; // results with: this.energy = this.energy - 20;
-      console.log(typeof eval(foo));
+    changeImg(src){
+      this.img = "/src/assets/"+src+".gif"; 
+      switch(src) {
+        case "sleep":
+          this.choice = "sleeping 😴";
+          this.current.arrLength = 0;
+          break;
+        case "happy":
+          this.choice = "pooping 💩";
+          this.current.arrLength = 0;
+          break;
+      }
+    },
+    changeBar(bar) { 
+      let foo = "this."+bar+"="+"this."+bar+"-10"; // results with: this.energy = this.energy - 20; issue with that - it won't go up to 0
       eval(foo);
       // const increaseHealthbar = setInterval(() => {
       //   if (this.energy > 0) {
@@ -86,16 +100,21 @@ export default {
       // }, 1000);
       // increaseHealthbar;
     },
-    
+    welcome(msg){
+      alert(msg);
+    }
   },
   watch: { 
     'current.counter'(NewValue){
       let obj = Object.values(this.current.activity);
+      let string = "";
       for(let i=0; i<obj.length; i++){
         if(obj[i].includes(this.choice)) { 
-          this.choice = obj[i][this.current.counter];
+          string = obj[i][this.current.counter]
+          this.choice = string;
+          this.changeImg(string);
         }
-      }
+      } //add changeImg(src)
     }
   }
 };
@@ -108,23 +127,23 @@ export default {
       <div class="grid-item image" @click="music(candy)">
         <img :src="img" />
       </div>
-      <div class="grid-item column">
+      <div class="grid-item column" @click="welcome('Your current Fun level is ...')">
         Fun
         <div class="bar">
           <div class="bar-inside" :style="{ width: fun + '%' }"></div>
         </div>
       </div>
-      <div class="grid-item" @click="sleep('/src/assets/sleep.gif', 'energy')">
+      <div class="grid-item" @click="changeImg('sleep'), changeBar('energy')">
         Sleep
       </div>
-      <div class="grid-item column">
+      <div class="grid-item column" @click="welcome('Your current Energy level is ...')">
         Energy
         <div class="bar">
           <div class="bar-inside" :style="{ width: energy + '%' }"></div>
         </div>
       </div>
       <div class="grid-item" @click="choose('play')">Play</div>
-      <div class="grid-item column">
+      <div class="grid-item column" @click="welcome('Your current Toilet level is ...')">
         Toilet
         <div class="bar">
           <div class="bar-inside" :style="{ width: toilet + '%' }"></div>
@@ -132,10 +151,10 @@ export default {
       </div>
       <div class="grid-item" @click="choose('dress')">Dress</div>
       <div class="grid-item">
-        <span v-if="current.arrLength !== 0" @click="changeChoice('left')">&lt;&lt;</span> <span class="choice">{{ choice }}</span>
-        <span v-if="current.arrLength !== 0" @click="changeChoice('right')">&gt;&gt;</span>
+        <span class="arrow" v-if="current.arrLength !== 0" @click="changeChoice('left')">&lt;&lt;</span> <span class="choice" @click="welcome('Welcome to Pusheen tamagotchi 1.0.0 😻')">{{ choice }}</span>
+        <span class="arrow" v-if="current.arrLength !== 0" @click="changeChoice('right')">&gt;&gt;</span>
       </div>
-      <div class="grid-item">Use toilet!</div>
+      <div class="grid-item" @click="changeImg('happy')">Use toilet!</div>
     </div>
   </div>
 </template>
