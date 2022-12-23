@@ -43,6 +43,7 @@ body {
 
 .arrow:hover {
   color:red;
+  user-select: none;
 }
 
 .choice{

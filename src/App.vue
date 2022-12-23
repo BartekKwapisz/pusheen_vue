@@ -1,7 +1,7 @@
 <script>
 // prevent span arrow from selecting text when clicking
 //try performance.now()?
-// still to add: picture change and bar mechanic
+// still to add: bar mechanic
 export default {
   data() {
     return { 
@@ -16,8 +16,8 @@ export default {
       current: {
           activity: {
             eat: ["ramen","pizza","egg","sushi","cookie","peeps","hair","ice-cream","everything"],
-            dress: ["naked", "bread", "crocodile", "mexico", "female"],
-            play: ["dance","play","rave","write","paint","call","blog"]
+            dress: ["naked", "bread", "crocodile", "Mexican", "female"],
+            play: ["dancing","playing","raving","writing","painting","calling","blogging"]
           },
           counter: 0,
           arrLength: 0
@@ -101,7 +101,11 @@ export default {
       // increaseHealthbar;
     },
     welcome(msg){
-      alert(msg);
+      let doing = this.choice;
+      let addA = ["bread", "female", "crocodile"];
+      if(addA.includes(doing)) doing = "a " + doing;
+      if(this.current.arrLength === this.current.activity.eat.length) doing = "eating " + doing;
+      alert(msg+"You're now "+doing);
     }
   },
   watch: { 
@@ -127,7 +131,7 @@ export default {
       <div class="grid-item image" @click="music(candy)">
         <img :src="img" />
       </div>
-      <div class="grid-item column" @click="welcome('Your current Fun level is ...')">
+      <div class="grid-item column" @click="welcome('Your current Fun level is ... ')">
         Fun
         <div class="bar">
           <div class="bar-inside" :style="{ width: fun + '%' }"></div>
@@ -136,14 +140,14 @@ export default {
       <div class="grid-item" @click="changeImg('sleep'), changeBar('energy')">
         Sleep
       </div>
-      <div class="grid-item column" @click="welcome('Your current Energy level is ...')">
+      <div class="grid-item column" @click="welcome('Your current Energy level is ... ')">
         Energy
         <div class="bar">
           <div class="bar-inside" :style="{ width: energy + '%' }"></div>
         </div>
       </div>
       <div class="grid-item" @click="choose('play')">Play</div>
-      <div class="grid-item column" @click="welcome('Your current Toilet level is ...')">
+      <div class="grid-item column" @click="welcome('Your current Toilet level is ... ')">
         Toilet
         <div class="bar">
           <div class="bar-inside" :style="{ width: toilet + '%' }"></div>
