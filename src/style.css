@@ -74,7 +74,7 @@ body {
   right: 0px;
   position: absolute;
   background-color: beige;
-  transition: width 2s;
+  /* transition: width 2s; */
 }
 
 /*# sourceMappingURL=App.css.map */
