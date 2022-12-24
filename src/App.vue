@@ -1,10 +1,11 @@
+// needs to update msg for cases without energy, fun or toilet
 <script>
 export default {
   data() {
     return {
-      img: "/src/assets/default.gif",
+      img: "/assets/default.gif",
       audio: {
-        song: new Audio("src/assets/candy.mp3"),
+        song: new Audio("/assets/candy.mp3"),
         playing: true
       },
       current: {
@@ -91,11 +92,13 @@ export default {
       }
     },
     changeImg(src) {
-      this.img = "/src/assets/" + src + ".gif";
+      this.img = "/assets/" + src + ".gif";
     },
     welcome(msg) {
       let doing = this.choice;
       let addLetterA = ["bread", "female", "crocodile"];
+      let you = "You're now ";
+      if (doing.slice(0, 4) === "need") you = "You "; 
       if (addLetterA.includes(doing)) doing = "a " + doing;
       if (doing === "Pusheen tamagotchi 🐈") doing = "our favourite user 😘";
       if (this.current.arrLength === this.current.activity.eat.length)
@@ -103,18 +106,19 @@ export default {
       if (msg.slice(0, 12) === "Your current") {
         switch (msg.slice(13, 16)) {
           case "Ene":
-            alert(msg + (100 - this.barStatus.energy) + " jumps/hour. You're now " + doing);
+            alert(msg + (100 - this.barStatus.energy) + " jumps/hour. " + you + doing+".");
             break;
           case "Fun":
-            alert(msg + (100 - this.barStatus.fun) + " joy/neuron. You're now " + doing);
+            alert(msg + (100 - this.barStatus.fun) + " joy/neuron. " + you + doing+".");
             break;
           case "Toi":
-            alert(msg + (100 - this.barStatus.toilet) + " poops/litter box. You're now " + doing);
+            alert(msg + (100 - this.barStatus.toilet) + " poops/litter box. " + you + doing+".");
             break;
           // later customize message depending on bar level
         }
-      } else {
-        alert(msg + "You're now " + doing);
+      }
+      else {
+        alert(msg + you + doing+".");
       }
     },
     changeBar(bar) {
@@ -125,7 +129,7 @@ export default {
         if (this.barStatus.energy < 100) this.barStatus.energy = this.barStatus.energy + 1;
         if (this.barStatus.fun < 100) this.barStatus.fun = this.barStatus.fun + 1;
         if (this.barStatus.toilet < 100) this.barStatus.toilet = this.barStatus.toilet + 1;
-      }, 1000);
+      }, 2000);
     },
     eatNow(action) {
       let increaseHealthbar = setInterval(() => {
@@ -164,9 +168,9 @@ export default {
     playNow(action) {
       let increaseHealthbar = setInterval(() => {
         if (this.current.activity.is === "playing") {
-        if (this.barStatus.fun === 100) this.barStatus.fun = 95;
-        if (this.barStatus.fun >= 0) this.barStatus.fun = this.barStatus.fun - 1;
-        if (this.barStatus.energy <= 99) this.barStatus.energy = this.barStatus.energy + 1;
+          if (this.barStatus.fun === 100) this.barStatus.fun = 95;
+          if (this.barStatus.fun >= 0) this.barStatus.fun = this.barStatus.fun - 1;
+          if (this.barStatus.energy <= 99) this.barStatus.energy = this.barStatus.energy + 1;
         } else {
           clearInterval(increaseHealthbar);
         }
@@ -214,24 +218,24 @@ export default {
     },
     'barStatus.energy'() {
       if (this.barStatus.energy === 100) {
-        this.changeImg("noEnergy"); 
-        this.choice = "Rest or eat";
+        this.changeImg("noEnergy");
+        this.choice = "need energy";
         this.reset();
-      }; 
+      };
     },
     'barStatus.fun'() {
       if (this.barStatus.fun === 100) {
         this.changeImg("noFun");
-        this.choice = "Have some fun";
+        this.choice = "need fun";
         this.reset();
       }
     },
     'barStatus.toilet'() {
       if (this.barStatus.toilet === 100) {
-        this.changeImg("noToilet"); 
-        this.choice = "Use toilet quickly!";
+        this.changeImg("noToilet");
+        this.choice = "need toilet";
         this.reset();
-      } 
+      }
     }
   },
   created: function () {
@@ -276,7 +280,7 @@ export default {
       <div class="grid-item" @click="chooseActivity('dress')">Dress</div>
       <div class="grid-item">
         <span class="arrow" v-if="current.arrLength !== 0" @click="changeChoice('left')">&lt;&lt;</span>
-        <span class="choice" @click="welcome('Welcome to Pusheen tamagotchi 1.0.0 😻')">{{ choice }}</span>
+        <span class="choice" @click="welcome('Welcome to Pusheen tamagotchi 1.0.1 😻')">{{ choice }}</span>
         <span class="arrow" v-if="current.arrLength !== 0" @click="changeChoice('right')">&gt;&gt;</span>
       </div>
       <div class="grid-item" @click="chooseActivity('toilet'), changeBar('toilet')">
